@@ -24,7 +24,6 @@ const databaseAcc = {
         id: ''
     }]
 }
-/* HI! */
 
 app.get('/', (req,res) => {
     res.send('this is working!!');
