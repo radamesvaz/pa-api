@@ -10,11 +10,13 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const databaseUser = {      
+const databaseUser = {
+    usuario: [
+    {      
         username: 'radames',
         password: 'cookies'
+    }]
 }
-
 const databaseAcc = {
     accesorio:[{
         tipo: 'case',
@@ -40,16 +42,14 @@ app.post('/signin', (req,res) => {
 })
 
 
-app.post('/upload-acc', (req, res) => {
-    const { tipo, modelo, precio } = req.body; 
-    databaseAcc.accesorio.push({
-        tipo: tipo,
-        modelo: modelo,
-        precio: precio
-    })
-    res.json(databaseAcc);
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
+    databaseUser.usuario.push({
+        username: username,
+        password: password
+    });
+    res.json(databaseUser.usuario);
 })
-
 
 // Image uploader
 
