@@ -44,12 +44,12 @@ app.post('/signin', (req,res) => {
 
 
 app.post('/register', (req, res) => {
-    const { username, password } = req.body;
+    const { user, password } = req.body;
     databaseUser.usuario.push({
-        username: username,
+        user: user,
         password: password
     });
-    res.json(databaseUser.usuario);
+    res.json(databaseUser.usuario[databaseUser.usuario.length -1]);
 })
 
 // Image uploader
