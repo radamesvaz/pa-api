@@ -3,17 +3,18 @@ const bodyParser = require('body-parser');
 const upload = require('./multer');
 const cloudinary = require('./cloudinary');
 const fs = require('fs');
+const cors = require('cors');
 
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(cors());
 const databaseUser = {
     usuario: [
     {      
-        username: 'radames',
+        user: 'radames',
         password: 'cookies'
     }]
 }
@@ -28,13 +29,13 @@ const databaseAcc = {
 }
 
 app.get('/', (req,res) => {
-    res.send('this is working!!');
+    res.send(databaseUser.usuario);
 })
 
 
 app.post('/signin', (req,res) => {
-    if(req.body.username === databaseUser.username &&
-        req.body.password === databaseUser.password){
+    if(req.body.user === databaseUser.usuario[0].user &&
+        req.body.password === databaseUser.usuario[0].password){
             res.json('acceso garantizado');
         } else {
             res.status(400).json('quien es este impostor?');
