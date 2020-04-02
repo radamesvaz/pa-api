@@ -80,7 +80,7 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
             });
 
     
-        res.status(200).json(databaseAcc.accesorio[databaseAcc.accesorio.length -1])
+        res.status(200).json('exito');
            /* message: 'imagen subida exitosamente',
             database: databaseAcc.accesorio
            // data: urls
