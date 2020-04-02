@@ -23,6 +23,7 @@ const databaseAcc = {
         tipo: 'case',
         modelo: 'iphone X',
         precio: '$15',
+        link: '',
         url: '',
         id: ''
     }]
@@ -75,6 +76,7 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
                 tipo: req.body.tipo,
                 modelo: req.body.modelo,
                 precio: req.body.precio,
+                link: req.body.link,
                 url: urls[0].url,
                 id: urls[0].id
             });
