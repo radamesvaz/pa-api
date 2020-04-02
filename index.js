@@ -4,7 +4,19 @@ const upload = require('./multer');
 const cloudinary = require('./cloudinary');
 const fs = require('fs');
 const cors = require('cors');
+const knex = require('knex');
 
+const postgres = knex({
+    client: 'pg',
+    connection: {
+      host : '127.0.0.1',
+      user : 'postgres',
+      password : 'test',
+      database : 'planetaaccesorios'
+    }
+  });
+
+  console.log(postgres.select('*').from('users'));
 
 const app = express();
 
