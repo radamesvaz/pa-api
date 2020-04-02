@@ -80,11 +80,11 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
             });
 
     
-        res.status(200).json({
-            message: 'imagen subida exitosamente',
-            database: databaseAcc
+        res.status(200).json(databaseAcc.accesorio[databaseAcc.accesorio.length -1])
+           /* message: 'imagen subida exitosamente',
+            database: databaseAcc.accesorio
            // data: urls
-        })
+        })*/
     } else {
         res.status(405).json({
             err: "No se pudo subir la imagen"
