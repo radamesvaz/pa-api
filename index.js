@@ -5,8 +5,9 @@ const cloudinary = require('./cloudinary');
 const fs = require('fs');
 const cors = require('cors');
 const knex = require('knex');
+const bcrypt = require('bcrypt-nodejs');
 
-const postgres = knex({
+const db = knex({
     client: 'pg',
     connection: {
       host : '127.0.0.1',
@@ -16,7 +17,7 @@ const postgres = knex({
     }
   });
 
-  console.log(postgres.select('*').from('users'));
+
 
 const app = express();
 
@@ -30,39 +31,53 @@ const databaseUser = {
         password: 'cookies'
     }]
 }
-const databaseAcc = {
-    accesorio:[{
-        tipo: 'case',
-        modelo: 'iphone X',
-        precio: '$15',
-        link: '',
-        url: '',
-        id: ''
-    }]
-}
-
-app.get('/', (req,res) => {
-    res.send(databaseUser.usuario);
-})
 
 
 app.post('/signin', (req,res) => {
-    if(req.body.user === databaseUser.usuario[0].user &&
-        req.body.password === databaseUser.usuario[0].password){
-            res.json('acceso garantizado');
+    db.select('name' , 'hash').from('login')
+    .where('name', '=', req.body.name)
+    .then(data => {
+        const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
+        if(isValid){
+          return  db.select('*').from('users')
+            .where('name', '=', req.body.name)
+            .then(user => {
+                res.json('acceso garantizado')
+            })
+            .catch(err => res.status(400).json('no se pudo encontar el usuario'))
         } else {
-            res.status(400).json('quien es este impostor?');
-        }
+            res.json('quien es este impostor?')
+        } 
+    })
 })
 
 
 app.post('/register', (req, res) => {
-    const { user, password } = req.body;
-    databaseUser.usuario.push({
-        user: user,
-        password: password
-    });
-    res.json(databaseUser.usuario[databaseUser.usuario.length -1]);
+    const { name, password } = req.body;
+    const hash = bcrypt.hashSync(password);
+    db.transaction(trx => {
+        trx.insert({
+            name: name,
+            hash: hash
+        })
+        .into('login')
+        .returning('name')
+        .then(loginName => {
+            return trx('users')
+            .returning('*')
+            .insert({
+                name: loginName[0],
+                hash: hash
+        })
+        .then(user => {
+            res.json('registrado con exito');
+            })
+        })
+        .then(trx.commit)
+        .catch(trx.rollback)
+    })
+    .catch(err => res.status(400).json('no se pudo registrar'));
+    
 })
 
 // Image uploader
