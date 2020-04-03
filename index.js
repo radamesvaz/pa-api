@@ -95,13 +95,13 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
         
             };
 
-            db('contenido').insert({
+            db('content').insert({
                 name: req.body.tipo,
                 modelo: req.body.modelo,
                 precio: req.body.precio,
                 link: req.body.link,
                 url: urls[0].url,
-                id: urls[0].id
+               // id: urls[0].id
 
             })
                .then(console.log)
@@ -116,8 +116,8 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
 
 //Delete
 
-app.delete('/delete/Images/:id', (req, res) => {
-    db('contenido').where({ id: /*'Images/' + */req.params.id }).
+app.delete('/delete/:id', (req, res) => {
+    db('content').where({ id: req.params.id }).
         del()
         .then(res.json('borrado exitoso'))
 });
