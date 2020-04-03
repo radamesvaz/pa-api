@@ -25,6 +25,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+
+//Signin
+
 app.post('/signin', (req,res) => {
     db.select('name' , 'hash').from('login')
     .where('name', '=', req.body.name)
@@ -43,6 +46,7 @@ app.post('/signin', (req,res) => {
     })
 })
 
+// Register
 
 app.post('/register', (req, res) => {
     const { name, password } = req.body;
@@ -109,6 +113,14 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
         })
     }
 })
+
+//Delete
+
+app.delete('/delete/Images/:id', (req, res) => {
+    db('contenido').where({ id: /*'Images/' + */req.params.id }).
+        del()
+        .then(res.json('borrado exitoso'))
+});
 
 
 app.listen(3000, () => {
