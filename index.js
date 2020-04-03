@@ -24,14 +24,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-const databaseUser = {
-    usuario: [
-    {      
-        user: 'radames',
-        password: 'cookies'
-    }]
-}
-
 
 app.post('/signin', (req,res) => {
     db.select('name' , 'hash').from('login')
@@ -97,23 +89,20 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
 
             fs.unlinkSync(path);
         
-            }
-            
-            databaseAcc.accesorio.push({
-                tipo: req.body.tipo,
+            };
+
+            db('contenido').insert({
+                name: req.body.tipo,
                 modelo: req.body.modelo,
                 precio: req.body.precio,
                 link: req.body.link,
                 url: urls[0].url,
                 id: urls[0].id
-            });
 
+            })
+               .then(console.log)
     
         res.status(200).json('exito');
-           /* message: 'imagen subida exitosamente',
-            database: databaseAcc.accesorio
-           // data: urls
-        })*/
     } else {
         res.status(405).json({
             err: "No se pudo subir la imagen"
