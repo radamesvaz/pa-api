@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt-nodejs');
 const register = require('./controllers/Register');
 const signin = require('./controllers/SignIn');
 const delet = require('./controllers/Delete');
+const home = require('./controllers/Home');
 
 const db = knex({
     client: 'pg',
@@ -31,12 +32,7 @@ app.use(cors());
 
 //Home
 
-app.get('/home', (req, res) => {
-    db.select().table('content')
-    .then(response => {
-        res.json(response);
-    })
-})
+app.get('/home', (req, res) => { home.handleHome(req, res, db) });
 
 
 //Signin
@@ -94,13 +90,3 @@ app.delete('/delete', (req, res) => { delet.handleDelete(req, res, db) });
 app.listen(3000, () => {
     console.log('Im alive on port 3000');
 })
-
-
-
-/*
-
-/ --> res = this is working
-/signin --> POST = success/fail
-
-
-*/
