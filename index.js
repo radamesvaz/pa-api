@@ -7,6 +7,10 @@ const cors = require('cors');
 const knex = require('knex');
 const bcrypt = require('bcrypt-nodejs');
 
+const register = require('./controllers/Register');
+const signin = require('./controllers/SignIn');
+const delet = require('./controllers/Delete');
+
 const db = knex({
     client: 'pg',
     connection: {
@@ -37,53 +41,11 @@ app.get('/home', (req, res) => {
 
 //Signin
 
-app.post('/signin', (req,res) => {
-    db.select('name' , 'hash').from('login')
-    .where('name', '=', req.body.name)
-    .then(data => {
-        const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
-        if(isValid){
-          return  db.select('*').from('users')
-            .where('name', '=', req.body.name)
-            .then(user => {
-                res.json('acceso garantizado')
-            })
-            .catch(err => res.status(400).json('no se pudo encontar el usuario'))
-        } else {
-            res.json('quien es este impostor?')
-        } 
-    })
-})
+app.post('/signin', (req,res) => { signin.handleSignIn(req, res, db, bcrypt) });
 
 // Register
 
-app.post('/register', (req, res) => {
-    const { name, password } = req.body;
-    const hash = bcrypt.hashSync(password);
-    db.transaction(trx => {
-        trx.insert({
-            name: name,
-            hash: hash
-        })
-        .into('login')
-        .returning('name')
-        .then(loginName => {
-            return trx('users')
-            .returning('*')
-            .insert({
-                name: loginName[0],
-                hash: hash
-        })
-        .then(user => {
-            res.json('registrado con exito');
-            })
-        })
-        .then(trx.commit)
-        .catch(trx.rollback)
-    })
-    .catch(err => res.status(400).json('no se pudo registrar'));
-    
-})
+app.post('/register', (req, res) =>  { register.handleRegister(req, res, db, bcrypt) });
 
 // Image uploader
 
@@ -126,11 +88,7 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
 
 //Delete
 
-app.delete('/delete', (req, res) => {
-    db('content').where({ id: req.body.id }).
-        del()
-        .then(res.json('borrado exitoso'))
-});
+app.delete('/delete', (req, res) => { delet.handleDelete(req, res, db) });
 
 
 app.listen(3000, () => {
