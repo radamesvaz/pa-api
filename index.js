@@ -30,6 +30,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get('/', (req, res) => { res.send('FUNCIOOOOOONAAAAAAaaaAAAaa') });
+
 //Home
 
 app.get('/home', (req, res) => { home.handleHome(req, res, db) });
@@ -37,7 +39,7 @@ app.get('/home', (req, res) => { home.handleHome(req, res, db) });
 
 //Signin
 
-app.post('/signin', (req,res) => { signin.handleSignIn(req, res, db, bcrypt) });
+app.post('/signin',  signin.handleSignIn(db, bcrypt));
 
 // Register
 
