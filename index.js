@@ -121,12 +121,13 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
             err: "No se pudo subir la imagen"
         })
     }
+    
 })
 
 //Delete
 
-app.delete('/delete/:id', (req, res) => {
-    db('content').where({ id: req.params.id }).
+app.delete('/delete', (req, res) => {
+    db('content').where({ id: req.body.id }).
         del()
         .then(res.json('borrado exitoso'))
 });
