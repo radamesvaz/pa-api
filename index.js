@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/", (req, res) => { res.send('FUNCIOOOOOONAAAAAAaaaAAAaa') });
+app.get("/", (req, res) => { res.send('It works!') });
 
 //Home
 
@@ -90,5 +90,5 @@ app.delete('/delete', (req, res) => { delet.handleDelete(req, res, db) });
 
 
 app.listen(process.env.PORT ||  3000, () => {
-    console.log(`ESTOY CORRIENDO AQUIIIiiiiiiiiiiiiiIIIIIIII ${process.env.PORT}`);
+    console.log(`Alive here ${process.env.PORT}`);
 })
