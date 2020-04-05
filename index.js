@@ -87,6 +87,6 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
 app.delete('/delete', (req, res) => { delet.handleDelete(req, res, db) });
 
 
-app.listen(3000, () => {
-    console.log('Im alive on port 3000');
+app.listen(process.env.PORT ||  3000, () => {
+    console.log(`Im alive on port 3000 ${process.env.PORT}`);
 })
