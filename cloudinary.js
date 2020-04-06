@@ -4,9 +4,9 @@ const  dotenv = require('dotenv');
 dotenv.config();
 
 cloudinary.config({
-    cloud_name: 'radames',
-    api_key: 755953186971795,
-    api_secret: '_H-Y5tD1ID4ozcZryu7OV_4Irns'
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 exports.uploads = (file, folder) => {
