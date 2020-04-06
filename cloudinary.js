@@ -5,7 +5,7 @@ dotenv.config();
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
+    api_key: 755953186971795,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
