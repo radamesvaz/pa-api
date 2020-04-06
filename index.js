@@ -83,6 +83,10 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
     
 })
 
+app.post('/prueba', (req, res) => {
+    res.json('this endpoint works');
+})
+
 //Delete
 
 app.delete('/delete', (req, res) => { delet.handleDelete(req, res, db) });
