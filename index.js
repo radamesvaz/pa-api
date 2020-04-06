@@ -64,7 +64,7 @@ app.use('/upload-images', upload.array('image'), async(req, res) => {
             };
 
             db('content').insert({
-                name: req.body.tipo,
+                name: req.body.name,
                 modelo: req.body.modelo,
                 precio: req.body.precio,
                 link: req.body.link,
