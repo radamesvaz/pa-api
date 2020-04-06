@@ -15,7 +15,7 @@ const home = require('./controllers/Home');
 const db = knex({
     client: 'pg',
     connection: {
-        connectionString: process.env.DATABASE_URL,
+        connectionString: 'postgresql-curved-05112',
         ssl: true,
     }
   });
