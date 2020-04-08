@@ -9,7 +9,7 @@ const handleSignIn = (db, bcrypt) => (req, res) => {
           return  db.select('*').from('users')
             .where('name', '=', req.body.name)
             .then(user => {
-                res.json('acceso garantizado')
+                res.json(user)
             })
             .catch(err => res.status(400).json('no se pudo encontar el usuario'))
         } else {
@@ -17,7 +17,6 @@ const handleSignIn = (db, bcrypt) => (req, res) => {
         } 
     })
 }
-
 module.exports = {
     handleSignIn: handleSignIn
 }
